@@ -22,7 +22,7 @@
 			<useDefaultExcludes>true</useDefaultExcludes>
 			<fileMode>0775</fileMode>
 			<includes>
-				<include>function-sample-aws</include>
+				<include>serverless</include>
 			</includes>
 		</fileSet>
 	</fileSets>
