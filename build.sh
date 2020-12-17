@@ -12,7 +12,7 @@ rm -rf target
 mkdir -p target/native-image/BOOT-INF
 
 echo "Packaging $ARTIFACT with Maven"
-mvn -DskipTests package > target/native-image/output.txt
+mvn -DskipTests package >target/native-image/output.txt
 
 JAR="$ARTIFACT-$VERSION.jar"
 rm -f $ARTIFACT
@@ -22,12 +22,11 @@ mkdir BOOT-INF
 jar -xvf ../$JAR >/dev/null 2>&1
 cp -R META-INF BOOT-INF/classes
 
-LIBPATH=`find BOOT-INF/lib | tr '\n' ':'`
+LIBPATH=$(find BOOT-INF/lib | tr '\n' ':')
 FEATURE=../../spring-graal-native-0.7.0.BUILD-SNAPSHOT.jar
 CP=BOOT-INF/classes:$LIBPATH:$FEATURE
 
-
-GRAALVM_VERSION=`native-image --version`
+GRAALVM_VERSION=$(native-image --version)
 echo "Compiling $ARTIFACT with $GRAALVM_VERSION"
 { time native-image \
   --verbose \
@@ -41,10 +40,9 @@ echo "Compiling $ARTIFACT with $GRAALVM_VERSION"
   -Dspring.graal.remove-unused-autoconfig=true \
   -Dspring.graal.remove-yaml-support=true \
   -Dspring.graal.verbose=true \
-  -cp $CP $MAINCLASS >> output.txt ; } 2>> output.txt
+  -cp $CP $MAINCLASS >>output.txt; } 2>>output.txt
 
-if [[ -f $ARTIFACT ]]
-then
+if [[ -f $ARTIFACT ]]; then
   printf "${GREEN}SUCCESS${NC}\n"
   mv ./$ARTIFACT ..
   exit 0
@@ -53,4 +51,3 @@ else
   printf "${RED}FAILURE${NC}: an error occurred when compiling the native-image.\n"
   exit 1
 fi
-

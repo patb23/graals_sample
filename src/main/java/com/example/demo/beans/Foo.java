@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class Foo {
 
-	String value;
+    String value;
 }
